@@ -77,6 +77,7 @@ const run = (req, res, fn) => {
 }
 
 const start = async (port, fn) => {
+    let originalPort = port;
     while(true){
         try {
             if((await isPortAvailable(port))){
@@ -90,7 +91,12 @@ const start = async (port, fn) => {
         }
     }
     let microServer = server((req, res) => run(req, res, fn));
-    microServer.listen(port, () => console.log("Start listening on " + port));
+    microServer.listen(port, () => {
+        if(port !== originalPort){
+            console.log("Port " + originalPort + " already taken."); 
+        }
+        console.log("Server started on port " + port);
+    });
 }
 
 module.exports.start = start;

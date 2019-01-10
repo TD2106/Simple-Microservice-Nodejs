@@ -1,10 +1,7 @@
 const microServer = require('./server/server');
-const MicroRouter = require('./router/router');
+const {json} = require('./utils/body-parser');
 
-let router = new MicroRouter();
-router.get('/', () => {
-    console.log("Middleware");
-},() => {
-    return "Hello router";
-})
-microServer.start(8080, (req, res) => router.handle(req, res));
+microServer.start(8080, async (req, res) => {
+    let result = await json(req);
+    microServer.send(res, 200, result);
+});
