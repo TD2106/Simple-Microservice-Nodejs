@@ -1,0 +1,18 @@
+{
+  "name": "simple-micro-framework",
+  "version": "1.0.0",
+  "description": "Simple microservices framework based on other frameworks such as micro and cotejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Duy Le",
+  "license": "MIT",
+  "dependencies": {
+    "content-type": "^1.0.4",
+    "radix-router": "^3.0.1",
+    "raw-body": "^2.3.3",
+    "winston": "^3.1.0",
+    "winston-daily-rotate-file": "^3.5.1"
+  }
+}
