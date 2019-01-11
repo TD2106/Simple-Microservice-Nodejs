@@ -28,16 +28,16 @@ const send = (res, code, obj = null) => {
     switch(objectType) {
         case 'null' :
             res.end();
-            break;
+            return;
         case 'buffer' :
             res.setHeader('Content-Type', 'application/octet-stream');
             res.setHeader('Content-Length', obj.length);
 		    res.end(obj);
-            break;
+            return;
         case 'stream' :
             res.setHeader('Content-Type', 'application/octet-stream');
             obj.pipe(res);
-            break;
+            return;
         case 'object' :
             res.setHeader('Content-Type', 'application/json; charset=utf-8');
             let str = obj;
@@ -48,7 +48,7 @@ const send = (res, code, obj = null) => {
             }
             res.setHeader('Content-Length', Buffer.byteLength(str));
 	        res.end(str);
-            break;
+            return;
     }
 }
 
@@ -66,10 +66,11 @@ const sendError = (res, err) => {
 const run = (req, res, fn) => {
     new Promise(resolve => resolve(fn(req, res)))
         .then(result => {
-            if (result === null || result === undefined) {
+            if (result === null) {
                 send(res, 204, null);
+                return;
             }
-            else {
+            if(result !== undefined) {
                 send(res, res.statusCode || 200, result);
             }
         })
